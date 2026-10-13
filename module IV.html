@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Lemonade Stand Empire: A Business Plan Adventure</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap');
+        
+        body {
+            font-family: 'Comic Neue', cursive, sans-serif;
+            background-color: #f0fdf4; /* Light green background */
+            color: #374151;
+            overflow-x: hidden;
+        }
+
+        /* Comic panel styling */
+        .comic-panel {
+            background-color: white;
+            border: 4px solid #1f2937;
+            border-radius: 16px;
+            box-shadow: 8px 8px 0px #1f2937;
+            transition: transform 0.2s, box-shadow 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .comic-panel:hover {
+            transform: translate(-4px, -4px);
+            box-shadow: 12px 12px 0px #1f2937;
+        }
+
+        /* Speech bubbles */
+        .speech-bubble {
+            position: relative;
+            background: #fff;
+            border: 3px solid #1f2937;
+            border-radius: .4em;
+            padding: 1rem;
+            font-size: 1.1rem;
+            line-height: 1.4;
+            margin-bottom: 1rem;
+            box-shadow: 4px 4px 0px rgba(31, 41, 55, 0.2);
+        }
+
+        .speech-bubble.left::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 20%;
+            width: 0;
+            height: 0;
+            border: 20px solid transparent;
+            border-top-color: #fff;
+            border-bottom: 0;
+            border-left: 0;
+            margin-left: -10px;
+            margin-bottom: -20px;
+        }
+        
+        .speech-bubble.left::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 20%;
+            width: 0;
+            height: 0;
+            border: 24px solid transparent;
+            border-top-color: #1f2937;
+            border-bottom: 0;
+            border-left: 0;
+            margin-left: -12px;
+            margin-bottom: -24px;
+        }
+
+        .speech-bubble.right::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 20%;
+            width: 0;
+            height: 0;
+            border: 20px solid transparent;
+            border-top-color: #fff;
+            border-bottom: 0;
+            border-right: 0;
+            margin-right: -10px;
+            margin-bottom: -20px;
+        }
+
+        .speech-bubble.right::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 20%;
+            width: 0;
+            height: 0;
+            border: 24px solid transparent;
+            border-top-color: #1f2937;
+            border-bottom: 0;
+            border-right: 0;
+            margin-right: -12px;
+            margin-bottom: -24px;
+        }
+
+        .speech-bubble.thought {
+            border-radius: 50%;
+        }
+        
+        .speech-bubble.thought::after, .speech-bubble.thought::before {
+           display: none;
+        }
+
+        /* Character styling */
+        .character {
+            font-size: 4rem;
+            filter: drop-shadow(2px 4px 0px rgba(0,0,0,0.3));
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        /* Action lines background */
+        .bg-action {
+            background: repeating-linear-gradient(
+                45deg,
+                rgba(255, 237, 74, 0.2),
+                rgba(255, 237, 74, 0.2) 20px,
+                transparent 20px,
+                transparent 40px
+            );
+        }
+
+        .bg-danger {
+            background: repeating-radial-gradient(
+                circle,
+                rgba(239, 68, 68, 0.1),
+                rgba(239, 68, 68, 0.1) 20px,
+                transparent 20px,
+                transparent 40px
+            );
+        }
+        
+        /* Modals */
+        .modal-overlay {
+            background-color: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+        }
+
+        .comic-button {
+            background-color: #fcd34d;
+            border: 3px solid #1f2937;
+            box-shadow: 4px 4px 0px #1f2937;
+            transition: all 0.1s;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .comic-button:active {
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0px #1f2937;
+        }
+
+        .nav-button {
+            background-color: #3b82f6;
+            color: white;
+            border: 3px solid #1f2937;
+            box-shadow: 4px 4px 0px #1f2937;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            transition: all 0.1s;
+        }
+        
+        .nav-button:disabled {
+            background-color: #9ca3af;
+            box-shadow: 2px 2px 0px #1f2937;
+            transform: translate(2px, 2px);
+            cursor: not-allowed;
+        }
+
+        .nav-button:not(:disabled):active {
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0px #1f2937;
+        }
+
+        /* Hide sections initially */
+        .story-section {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        
+        .story-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* Sound effects text */
+        .sfx {
+            font-family: 'Impact', sans-serif;
+            font-size: 2rem;
+            color: #ef4444;
+            text-shadow: 2px 2px 0px #1f2937, -2px -2px 0px #fff;
+            transform: rotate(-10deg);
+            display: inline-block;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col p-4 md:p-8">
+
+    <!-- Header -->
+    <header class="text-center mb-8 bg-white p-6 rounded-2xl border-4 border-gray-800 shadow-[8px_8px_0px_#1f2937] relative overflow-hidden">
+        <div class="absolute top-0 left-0 w-full h-full bg-action -z-10"></div>
+        <h1 class="text-4xl md:text-6xl font-bold tracking-wider uppercase text-yellow-400" style="text-shadow: 3px 3px 0px #1f2937, -1px -1px 0px #1f2937, 1px -1px 0px #1f2937, -1px 1px 0px #1f2937;">
+            The Lemonade Stand Empire!
+        </h1>
+        <p class="text-xl md:text-2xl mt-4 font-bold text-gray-800">
+            A Business Plan Adventure with Leo & Lily
+        </p>
+        
+        <!-- Progress Bar -->
+        <div class="mt-6 flex justify-center items-center gap-4">
+            <span class="font-bold">Progress:</span>
+            <div class="w-64 h-6 border-3 border-gray-800 rounded-full overflow-hidden bg-gray-200">
+                <div id="progress-bar" class="h-full bg-blue-500 transition-all duration-300" style="width: 5%;"></div>
+            </div>
+            <span id="progress-text" class="font-bold">1 / 10</span>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main id="story-container" class="max-w-6xl mx-auto w-full flex-grow relative">
+        <!-- Story sections will be injected here via JS -->
+    </main>
+
+    <!-- Navigation Controls -->
+    <div class="fixed bottom-4 left-0 w-full pointer-events-none flex justify-center px-4 z-40">
+        <div class="bg-white px-6 py-3 rounded-full border-4 border-gray-800 shadow-[4px_4px_0px_#1f2937] pointer-events-auto flex gap-6 items-center">
+            <button id="prev-btn" class="nav-button" disabled>
+                <i class="fa-solid fa-arrow-left"></i>
+            </button>
+            <span class="font-bold text-lg hidden md:inline">Navigate the Story</span>
+            <button id="next-btn" class="nav-button">
+                <i class="fa-solid fa-arrow-right"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Details Modal (Hidden by default) -->
+    <div id="details-modal" class="fixed inset-0 modal-overlay z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white border-4 border-gray-800 rounded-2xl w-full max-w-2xl max-h-[80vh] flex flex-col shadow-[12px_12px_0px_#1f2937] overflow-hidden transform scale-95 transition-transform duration-200" id="modal-content-container">
+            <!-- Header -->
+            <div class="bg-yellow-400 p-4 border-b-4 border-gray-800 flex justify-between items-center">
+                <h2 id="modal-title" class="text-2xl font-bold uppercase tracking-wide">The Boring (But Important) Stuff</h2>
+                <button id="close-modal" class="text-gray-800 hover:text-red-500 text-2xl font-bold p-2 focus:outline-none">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <!-- Body -->
+            <div id="modal-body" class="p-6 overflow-y-auto flex-grow text-lg">
+                <!-- Content injected here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- Story Data ---
+        // Each section represents a step in the lesson.
+        const storyData = [
+            {
+                id: "intro",
+                layout: "single", // single, split
+                title: "1. The Big Idea (Concept & Benefits)",
+                bgClass: "bg-blue-50",
+                panels: [
+                    {
+                        character: "👦 Leo",
+                        emoji: "🍋",
+                        speech: "Lily! I'm going to start a lemonade stand! I'll be rich! 🤑",
+                        type: "left"
+                    },
+                    {
+                        character: "👧 Lily",
+                        emoji: "📋",
+                        speech: "Hold your horses, Leo. Do you have a <b>Business Plan</b>? It's like a treasure map for your business idea!",
+                        type: "right",
+                        actionBtn: { text: "What's a Business Plan?", targetModal: "concept" }
+                    }
+                ]
+            },
+            {
+                id: "pitfalls",
+                layout: "split",
+                title: "2. Uh Oh! (Pitfalls to Avoid)",
+                bgClass: "bg-danger",
+                panels: [
+                    {
+                        character: "👦 Leo",
+                        emoji: "💸",
+                        speech: "Map? Nah! I'll just buy 1,000 lemons, charge $100 a cup, and sell to everyone on Earth!",
+                        type: "left"
+                    },
+                    {
+                        character: "👧 Lily",
+                        emoji: "🤦‍♀️",
+                        speech: "Leo, no! That's a classic <b>Pitfall</b>! Unrealistic financials and a vague target market will sink your stand before it opens.",
+                        type: "right",
+                        sfx: "CRASH!",
+                        actionBtn: { text: "Learn to Avoid Pitfalls", targetModal: "pitfalls" }
+                    }
+                ]
+            },
+            {
+                id: "executive_summary",
+                layout: "single",
+                title: "3. The Elevator Pitch (Executive Summary & Biz Desc.)",
+                bgClass: "bg-yellow-50",
+                panels: [
+                    {
+                        character: "👧 Lily",
+                        emoji: "📝",
+                        speech: "Let's build a well-conceived plan. First, the <b>Executive Summary</b>. Imagine you have 30 seconds to explain your business to Mom so she loans us money for sugar.",
+                        type: "left"
+                    },
+                    {
+                        character: "👦 Leo",
+                        emoji: "💡",
+                        speech: "Got it! 'Leo's Zesty Sips: Premium, organic lemonade for thirsty neighborhood kids, aiming to capture block dominance this summer.' That's our <b>Business Description</b> too!",
+                        type: "right",
+                        actionBtn: { text: "Read the Docs", targetModal: "exec_summary" }
+                    }
+                ]
+            },
+             {
+                id: "marketing_niche",
+                layout: "split",
+                title: "4. Who's Thirsty? (Marketing Niche vs Share)",
+                bgClass: "bg-purple-50",
+                panels: [
+                    {
+                        character: "👦 Leo",
+                        emoji: "🎯",
+                        speech: "I'll sell to everyone!",
+                        type: "left"
+                    },
+                    {
+                        character: "👧 Lily",
+                        emoji: "🍰",
+                        speech: "Wrong again! Our <b>Market Niche</b> is 'kids playing soccer at the park'. We want a big slice (<b>Market Share</b>) of THAT specific pie, not a crumb of the whole city.",
+                        type: "right",
+                        actionBtn: { text: "Niche vs Share", targetModal: "niche" }
+                    }
+                ]
+            },
+            {
+                id: "marketing_plan",
+                layout: "single",
+                title: "5. Spying on the Neighbors (Developing a Marketing Plan)",
+                bgClass: "bg-action",
+                panels: [
+                    {
+                        character: "👧 Lily",
+                        emoji: "🕵️‍♀️",
+                        speech: "We need a <b>Marketing Plan</b>. We must analyze our Customers (kids with allowance), Geography (the hot park), Economics (can they afford $1?), and the Competition (Tommy's iced tea stand).",
+                        type: "left",
+                        actionBtn: { text: "Analysis Vectors", targetModal: "marketing_plan" }
+                    }
+                ]
+            },
+            {
+                id: "research_pricing",
+                layout: "split",
+                title: "6. The Taste Test (Research & Pricing)",
+                bgClass: "bg-green-50",
+                panels: [
+                    {
+                        character: "👦 Leo",
+                        emoji: "🧪",
+                        speech: "I did <b>Market Research</b>! I gave samples. 8/10 kids like it sour.",
+                        type: "left"
+                    },
+                    {
+                        character: "👧 Lily",
+                        emoji: "🏷️",
+                        speech: "Good. Based on the cost of lemons, we make a <b>Pricing Decision</b>. $1.50 per cup gives us a profit, and kids think it's fair. We can <b>Forecast</b> selling 20 cups a day.",
+                        type: "right",
+                        actionBtn: { text: "Research & Pricing", targetModal: "research" }
+                    }
+                ]
+            },
+             {
+                id: "r_and_d",
+                layout: "split",
+                title: "7. Making the Magic (R&D, Ops, Management)",
+                bgClass: "bg-orange-50",
+                panels: [
+                    {
+                        character: "👦 Leo",
+                        emoji: "⚙️",
+                        speech: "I'll handle <b>R&D</b> (adding secret strawberries) and <b>Operations</b> (squeezing lemons fast).",
+                        type: "left"
+                    },
+                    {
+                        character: "👧 Lily",
+                        emoji: "👩‍💼",
+                        speech: "And I'll handle <b>Management</b> (counting the money and bossing you around). Every plan needs a clear structure!",
+                        type: "right",
+                        actionBtn: { text: "Internal Infrastructure", targetModal: "ops" }
+                    }
+                ]
+            },
+            {
+                id: "finances_risk",
+                layout: "single",
+                title: "8. The Piggy Bank (Finances & Critical-Risk)",
+                bgClass: "bg-red-50",
+                panels: [
+                    {
+                        character: "👧 Lily",
+                        emoji: "📉",
+                        speech: "Let's look at <b>Finances</b>. We need $10 to start. What's our <b>Critical-Risk</b>?",
+                        type: "left"
+                    },
+                    {
+                        character: "👦 Leo",
+                        emoji: "🌧️",
+                        speech: "Rain! If it rains, nobody buys lemonade. We need an umbrella or a plan to sell hot cocoa instead!",
+                        type: "right",
+                        sfx: "THUNDER!",
+                        actionBtn: { text: "Money & Danger", targetModal: "finance_risk" }
+                    }
+                ]
+            },
+             {
+                id: "harvest_milestone",
+                layout: "split",
+                title: "9. The Endgame (Milestones & Harvest)",
+                bgClass: "bg-indigo-50",
+                panels: [
+                    {
+                        character: "👧 Lily",
+                        emoji: "🏁",
+                        speech: "We set <b>Milestones</b>: Week 1, break even. Week 2, buy a cooler.",
+                        type: "left"
+                    },
+                    {
+                        character: "👦 Leo",
+                        emoji: "🚀",
+                        speech: "And the <b>Harvest Strategy</b>? At the end of summer, we sell the stand to our little brother and use the profits to buy a PS5!",
+                        type: "right",
+                        actionBtn: { text: "Planning the Exit", targetModal: "harvest" }
+                    }
+                ]
+            },
+            {
+                id: "evaluation",
+                layout: "single",
+                title: "10. Looking Back (Evaluation)",
+                bgClass: "bg-teal-50",
+                panels: [
+                    {
+                        character: "👦 & 👧",
+                        emoji: "🏆",
+                        speech: "Finally, <b>Evaluation</b>. Did we hit our goals? What did we learn for next summer's iced coffee stand? A business plan is a living document!",
+                        type: "left",
+                        actionBtn: { text: "Evaluate Success", targetModal: "evaluation" }
+                    }
+                ]
+            }
+        ];
+
+        // --- Modal Content Dictionary ---
+        const modalContent = {
+            concept: `
+                <h3 class="font-bold text-xl mb-2 text-blue-600">The Concept</h3>
+                <p class="mb-4">A Business Plan is a formal written document containing the goals of a business, the methods for attaining those goals, and the time-frame for the achievement of the goals. It describes the nature of the business, sales and marketing strategy, and the financial background.</p>
+                <h3 class="font-bold text-xl mb-2 text-green-600">Benefits</h3>
+                <ul class="list-disc pl-5 space-y-2 mb-4">
+                    <li><b>Clarity:</b> Forces you to think through every detail.</li>
+                    <li><b>Funding:</b> Banks and investors <i>require</i> it to give you money.</li>
+                    <li><b>Alignment:</b> Keeps the team focused on the same goals.</li>
+                </ul>
+                <div class="bg-blue-50 p-3 border-l-4 border-blue-500 rounded">
+                    <strong>Cartoon Example:</strong> Without a plan, Leo might have bought salty lemons instead of sweet ones, wasting Mom's loan!
+                </div>
+            `,
+            pitfalls: `
+                <h3 class="font-bold text-xl mb-2 text-red-600">Common Pitfalls to Avoid</h3>
+                <ul class="list-disc pl-5 space-y-2 mb-4">
+                    <li><b>Over-optimism:</b> Predicting massive sales with no proof.</li>
+                    <li><b>Ignoring Competition:</b> Thinking "We have no competitors!" (You always do).</li>
+                    <li><b>Vague Target Market:</b> Saying your product is for "everyone."</li>
+                    <li><b>Hiding Weaknesses:</b> Investors want to see that you know the risks.</li>
+                </ul>
+                <h3 class="font-bold text-xl mb-2 text-green-600">Developing a Well-Conceived Plan</h3>
+                <p class="mb-4">A good plan is based on <b>facts and research</b>, not just guesses. It should be clear, concise, and realistic. Use simple language, not jargon.</p>
+            `,
+            exec_summary: `
+                <h3 class="font-bold text-xl mb-2 text-purple-600">Executive Summary</h3>
+                <p class="mb-4">This is the most critical part of the plan. It's a 1-2 page overview of everything else in the document. Many investors <i>only</i> read this to decide if they want to read the rest.</p>
+                <h3 class="font-bold text-xl mb-2 text-indigo-600">Business Description</h3>
+                <p class="mb-4">This section goes deeper into what the company is. It includes the legal structure (e.g., LLC, Corporation), history, the exact problem you are solving, and how your product works.</p>
+                 <div class="bg-purple-50 p-3 border-l-4 border-purple-500 rounded">
+                    <strong>Cartoon Example:</strong> Leo's pitch to Mom: "We need $10 to make $30 by selling cold drinks to hot kids." Simple and clear!
+                </div>
+            `,
+            niche: `
+                <h3 class="font-bold text-xl mb-2 text-orange-600">Market Niche</h3>
+                <p class="mb-4">A narrowly defined, specific subset of a larger market with its own particular needs or preferences. <i>(e.g., instead of "shoes", your niche is "shoes for vegan marathon runners").</i></p>
+                <h3 class="font-bold text-xl mb-2 text-pink-600">Market Share</h3>
+                <p class="mb-4">The percentage of total sales in an industry generated by a particular company. It shows how dominant you are compared to competitors.</p>
+                 <div class="bg-orange-50 p-3 border-l-4 border-orange-500 rounded">
+                    <strong>Rule of thumb:</strong> Dominate your specific <b>Niche</b> first, then worry about growing your overall <b>Market Share</b>.
+                </div>
+            `,
+             marketing_plan: `
+                <h3 class="font-bold text-xl mb-2 text-blue-600">Developing a Marketing Plan</h3>
+                <p class="mb-4">You must analyze several vectors to understand how to sell:</p>
+                <ul class="list-disc pl-5 space-y-2 mb-4">
+                    <li><b>Customer Analysis:</b> Who are they? (Age, income, interests).</li>
+                    <li><b>Geographical Analysis:</b> Where are they? Local? Global? Climate factors?</li>
+                    <li><b>Economical Analysis:</b> Can they afford it? What's the economic climate?</li>
+                    <li><b>Linguistic/Cultural Analysis:</b> How do you talk to them? Do colors/words mean different things to them?</li>
+                    <li><b>Sales Analysis:</b> What channels work best? (Online, retail store, direct sales?)</li>
+                    <li><b>Competition Analysis:</b> Who else is trying to get their money? (SWOT analysis).</li>
+                </ul>
+            `,
+            research: `
+                <h3 class="font-bold text-xl mb-2 text-green-600">Market Research</h3>
+                <p class="mb-4">The process of gathering info about buyers' needs and preferences. It can be Primary (surveys you conduct) or Secondary (reading industry reports).</p>
+                <h3 class="font-bold text-xl mb-2 text-teal-600">Sales Forecasting</h3>
+                <p class="mb-4">Estimating future sales so you can plan inventory, staffing, and cash flow. Often based on past data or market research.</p>
+                 <h3 class="font-bold text-xl mb-2 text-yellow-600">Pricing Decision</h3>
+                <p class="mb-4">How much will you charge? Strategies include Cost-Plus (cost + markup), Value-based (based on perceived value), or Penetration (low initial price to gain market share).</p>
+            `,
+            ops: `
+                <h3 class="font-bold text-xl mb-2 text-gray-700">Internal Elements</h3>
+                <ul class="list-disc pl-5 space-y-4 mb-4">
+                    <li><b>Research, Design and Development (R&D):</b> How you innovate and improve your product over time to stay ahead.</li>
+                    <li><b>Operations:</b> The day-to-day work. Where do you get supplies? How is the product made? What are the logistics?</li>
+                    <li><b>Management:</b> Who is running the show? Investors invest in <i>people</i> as much as ideas. Detail the skills and experience of the leadership team.</li>
+                </ul>
+            `,
+            finance_risk: `
+                <h3 class="font-bold text-xl mb-2 text-green-700">Finances</h3>
+                <p class="mb-4">The numbers. This includes Income Statements, Cash Flow projections, and Break-Even analysis. It proves the business can actually make money.</p>
+                <h3 class="font-bold text-xl mb-2 text-red-600">Critical-Risk</h3>
+                <p class="mb-4">Identifying what could go wrong and having a mitigation plan. Examples: Supply chain issues, new regulations, or a key team member leaving.</p>
+                 <div class="bg-red-50 p-3 border-l-4 border-red-500 rounded">
+                    <strong>Cartoon Example:</strong> The critical risk for a lemonade stand is a thunderstorm. The mitigation plan is moving onto the covered porch.
+                </div>
+            `,
+             harvest: `
+                <h3 class="font-bold text-xl mb-2 text-blue-600">Milestone Schedule</h3>
+                <p class="mb-4">A timeline of key goals. (e.g., "Launch website by Q2", "Reach 1,000 customers by Year 1"). It keeps the team accountable.</p>
+                <h3 class="font-bold text-xl mb-2 text-purple-600">Harvest Strategy (Exit Plan)</h3>
+                <p class="mb-4">How do you get your money out eventually? Will you sell the business to a bigger company? Go public (IPO)? Pass it to your children? Investors need to know how they get paid back.</p>
+            `,
+            evaluation: `
+                 <h3 class="font-bold text-xl mb-2 text-teal-600">Evaluation</h3>
+                <p class="mb-4">A business plan is not a "set it and forget it" document. You must constantly evaluate real-world performance against the plan.</p>
+                <ul class="list-disc pl-5 space-y-2 mb-4">
+                    <li>Are we meeting our milestones?</li>
+                    <li>Are expenses higher than expected?</li>
+                    <li>Did market conditions change?</li>
+                </ul>
+                <p>If things change, you pivot and update the plan!</p>
+            `
+        };
+
+        let currentStep = 0;
+
+        // --- DOM Elements ---
+        const storyContainer = document.getElementById('story-container');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const progressBar = document.getElementById('progress-bar');
+        const progressText = document.getElementById('progress-text');
+        
+        const modal = document.getElementById('details-modal');
+        const modalContentContainer = document.getElementById('modal-content-container');
+        const modalTitle = document.getElementById('modal-title');
+        const modalBody = document.getElementById('modal-body');
+        const closeModalBtn = document.getElementById('close-modal');
+
+        // --- Render Functions ---
+        function createPanelHTML(panel, index) {
+            const isLeft = panel.type === 'left';
+            const flexDir = isLeft ? 'flex-row' : 'flex-row-reverse';
+            
+            let btnHTML = '';
+            if (panel.actionBtn) {
+                btnHTML = `<button onclick="openModal('${panel.actionBtn.targetModal}')" class="comic-button mt-4 px-4 py-2 rounded-lg text-sm sm:text-base block mx-auto w-full max-w-[200px]">
+                            ${panel.actionBtn.text}
+                           </button>`;
+            }
+
+            let sfxHTML = '';
+            if(panel.sfx) {
+                sfxHTML = `<div class="absolute -top-6 ${isLeft ? '-left-4' : '-right-4'} sfx z-10">${panel.sfx}</div>`;
+            }
+
+            return `
+                <div class="flex ${flexDir} items-end gap-4 relative w-full ${index > 0 ? 'mt-8' : ''}">
+                    ${sfxHTML}
+                    <div class="character hidden sm:block">${panel.emoji}</div>
+                    <div class="flex-grow max-w-2xl">
+                        <div class="speech-bubble ${panel.type}">
+                            <strong class="block mb-1 text-blue-600 text-sm sm:hidden">${panel.character}</strong>
+                            <p>${panel.speech}</p>
+                            ${btnHTML}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderStory() {
+            storyContainer.innerHTML = ''; // Clear container
+
+            storyData.forEach((section, index) => {
+                const sectionEl = document.createElement('div');
+                sectionEl.className = `story-section ${index === currentStep ? 'active' : ''} p-4 md:p-8`;
+                sectionEl.id = `section-${index}`;
+
+                let panelsHTML = '';
+                
+                if (section.layout === 'split') {
+                    // Two column layout for larger screens
+                    panelsHTML = `
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center h-full min-h-[400px]">
+                            ${section.panels.map((p, i) => `
+                                <div class="comic-panel p-6 ${section.bgClass} h-full flex flex-col justify-center">
+                                    ${createPanelHTML(p, 0)}
+                                </div>
+                            `).join('')}
+                        </div>
+                    `;
+                } else {
+                    // Single column stacked layout
+                    panelsHTML = `
+                        <div class="comic-panel p-6 md:p-12 ${section.bgClass} max-w-4xl mx-auto min-h-[400px] flex flex-col justify-center">
+                            ${section.panels.map((p, i) => createPanelHTML(p, i)).join('')}
+                        </div>
+                    `;
+                }
+
+                sectionEl.innerHTML = `
+                    <div class="mb-6 inline-block bg-white border-4 border-gray-800 rounded-lg px-4 py-2 shadow-[4px_4px_0px_#1f2937] transform -rotate-2">
+                        <h2 class="text-xl md:text-2xl font-bold">${section.title}</h2>
+                    </div>
+                    ${panelsHTML}
+                `;
+                
+                storyContainer.appendChild(sectionEl);
+            });
+
+            updateUI();
+        }
+
+        // --- Interaction Logic ---
+        function updateUI() {
+            // Update buttons
+            prevBtn.disabled = currentStep === 0;
+            nextBtn.disabled = currentStep === storyData.length - 1;
+            
+            // Update progress
+            const progress = ((currentStep + 1) / storyData.length) * 100;
+            progressBar.style.width = `${progress}%`;
+            progressText.innerText = `${currentStep + 1} / ${storyData.length}`;
+
+            // Show active section, hide others smoothly
+            document.querySelectorAll('.story-section').forEach((el, index) => {
+                if (index === currentStep) {
+                    el.classList.add('active');
+                } else {
+                    el.classList.remove('active');
+                }
+            });
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function openModal(modalId) {
+            modalBody.innerHTML = modalContent[modalId] || "<p>Information coming soon!</p>";
+            modal.classList.remove('hidden');
+            // Small delay to allow display block to apply before transforming for animation
+            setTimeout(() => {
+                modalContentContainer.classList.remove('scale-95');
+                modalContentContainer.classList.add('scale-100');
+            }, 10);
+        }
+
+        function closeModal() {
+            modalContentContainer.classList.remove('scale-100');
+            modalContentContainer.classList.add('scale-95');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 200); // match transition duration
+        }
+
+        // --- Event Listeners ---
+        prevBtn.addEventListener('click', () => {
+            if (currentStep > 0) {
+                currentStep--;
+                updateUI();
+            }
+        });
+
+        nextBtn.addEventListener('click', () => {
+            if (currentStep < storyData.length - 1) {
+                currentStep++;
+                updateUI();
+            }
+        });
+
+        closeModalBtn.addEventListener('click', closeModal);
+        
+        // Close modal on click outside
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (modal.classList.contains('hidden')) {
+                if (e.key === 'ArrowRight' && currentStep < storyData.length - 1) {
+                    currentStep++;
+                    updateUI();
+                } else if (e.key === 'ArrowLeft' && currentStep > 0) {
+                    currentStep--;
+                    updateUI();
+                }
+            } else if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+
+        // Initialize
+        renderStory();
+
+    </script>
+</body>
+</html>
